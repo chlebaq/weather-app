@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <title>Weather App</title>
+</head>
+<body>
+    <header>
+        <h1 class="weather-logo"><a href="/">Weather App</a></h1>
+        <div class="entry-wrapper">
+            <input id="cityInput" class="entry" type="text" placeholder="Search for a city or zip code">
+            <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="#FFFFFF"><path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"/></svg>
+        </div>
+    </header>
+    <main>
+        <div class="home-page">
+            <div class="weather-container">
+                <div class="card weather-details">
+                    <h3 id="time" class="time-text">--:--</h3>
+                    <h1 id="location" class="location-text">---, --</h1>
+                    
+                    <div class="current-details-wrapper">
+                        <div class="temp-box">
+                            <div class="temp-wrapper">
+                                <h1 id="temperature" class="temp-text">--°</h1>
+                                <div id="weatherIconContainer" class="weather-icon-container">
+                                    <svg class="weather-icon" width="150px" height="150px" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                                        <path style="fill: var(--sun)" d="M24 38C24.9182 38 25.6712 38.7071 25.7442 39.6065L25.75 39.75V43.25C25.75 44.2165 24.9665 45 24 45C23.0818 45 22.3288 44.2929 22.2558 43.3935L22.25 43.25V39.75C22.25 38.7835 23.0335 38 24 38ZM35.8558 33.3893L35.9812 33.5021L38.4812 35.977C39.168 36.657 39.1736 37.765 38.4937 38.4519C37.8537 39.0983 36.8346 39.1413 36.1442 38.5772L36.0188 38.4644L33.5188 35.9895C32.832 35.3095 32.8264 34.2015 33.5063 33.5146C34.1463 32.8682 35.1654 32.8252 35.8558 33.3893ZM14.4728 33.5053C15.1166 34.1479 15.1552 35.1673 14.5883 35.8552L14.4749 35.9801L12.0021 38.4571C11.3192 39.1411 10.2112 39.142 9.5272 38.4592C8.88344 37.8165 8.84476 36.7972 9.41172 36.1092L9.52513 35.9843L11.9979 33.5073C12.6808 32.8233 13.7888 32.8224 14.4728 33.5053ZM24 13.0806C30.0306 13.0806 34.9194 17.9694 34.9194 24C34.9194 30.0306 30.0306 34.9194 24 34.9194C17.9694 34.9194 13.0806 30.0306 13.0806 24C13.0806 17.9694 17.9694 13.0806 24 13.0806ZM8.25 22.25C9.2165 22.25 10 23.0335 10 24C10 24.9182 9.29289 25.6712 8.39353 25.7442L8.25 25.75H4.75C3.7835 25.75 3 24.9665 3 24C3 23.0818 3.70711 22.3288 4.60647 22.2558L4.75 22.25H8.25ZM43.25 22.25C44.2165 22.25 45 23.0335 45 24C45 24.9182 44.2929 25.6712 43.3935 25.7442L43.25 25.75H39.75C38.7835 25.75 38 24.9665 38 24C38 23.0818 38.7071 22.3288 39.6065 22.2558L39.75 22.25H43.25ZM11.8359 9.42837L11.9608 9.54188L14.4356 12.0168C15.1191 12.7002 15.1191 13.8082 14.4356 14.4916C13.7924 15.1348 12.7731 15.1727 12.0856 14.6051L11.9608 14.4916L9.48589 12.0168C8.80247 11.3333 8.80247 10.2253 9.48589 9.54188C10.1291 8.89866 11.1485 8.86083 11.8359 9.42837ZM38.4592 9.53877C39.103 10.1815 39.1416 11.2008 38.5747 11.8887L38.4613 12.0136L35.9885 14.4906C35.3056 15.1746 34.1976 15.1755 33.5136 14.4927C32.8698 13.85 32.8312 12.8307 33.3981 12.1427L33.5115 12.0178L35.9843 9.54084C36.6672 8.85686 37.7752 8.85593 38.4592 9.53877ZM24 3C24.9182 3 25.6712 3.70711 25.7442 4.60647L25.75 4.75V8.25C25.75 9.2165 24.9665 10 24 10C23.0818 10 22.3288 9.29289 22.2558 8.39353L22.25 8.25V4.75C22.25 3.7835 23.0335 3 24 3Z"/>
+                                    </svg>
+                                </div>
+                                <h3 id="description" class="weather-description">Description</h3>
+                            </div>
+                        </div>
+                        <div class="current details">
+                            <div class="spaced-content-details">
+                                <span class="label">Feels like</span>
+                                <span id="feelslike" class="value">--°</span>
+                            </div>
+                            <div class="spaced-content-details">
+                                <span class="label">Humidity</span>
+                                <span id="humidity" class="value">--%</span>
+                            </div>
+                            <div class="spaced-content-details">
+                                <span class="label">Pressure</span>
+                                <span id="pressure" class="value">---- mb</span>
+                            </div>
+                            <div class="spaced-content-details">
+                                <span class="label">Air quality</span>
+                                <span id="airquality" class="value" style="color: rgb(125, 255, 194);">-</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card uv-details">
+                    <div class="details-heading">
+                        <svg width="24px" height="24px" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path style="fill: #fff" d="M24 38C24.9182 38 25.6712 38.7071 25.7442 39.6065L25.75 39.75V43.25C25.75 44.2165 24.9665 45 24 45C23.0818 45 22.3288 44.2929 22.2558 43.3935L22.25 43.25V39.75C22.25 38.7835 23.0335 38 24 38ZM35.8558 33.3893L35.9812 33.5021L38.4812 35.977C39.168 36.657 39.1736 37.765 38.4937 38.4519C37.8537 39.0983 36.8346 39.1413 36.1442 38.5772L36.0188 38.4644L33.5188 35.9895C32.832 35.3095 32.8264 34.2015 33.5063 33.5146C34.1463 32.8682 35.1654 32.8252 35.8558 33.3893ZM14.4728 33.5053C15.1166 34.1479 15.1552 35.1673 14.5883 35.8552L14.4749 35.9801L12.0021 38.4571C11.3192 39.1411 10.2112 39.142 9.5272 38.4592C8.88344 37.8165 8.84476 36.7972 9.41172 36.1092L9.52513 35.9843L11.9979 33.5073C12.6808 32.8233 13.7888 32.8224 14.4728 33.5053ZM24 13.0806C30.0306 13.0806 34.9194 17.9694 34.9194 24C34.9194 30.0306 30.0306 34.9194 24 34.9194C17.9694 34.9194 13.0806 30.0306 13.0806 24C13.0806 17.9694 17.9694 13.0806 24 13.0806ZM8.25 22.25C9.2165 22.25 10 23.0335 10 24C10 24.9182 9.29289 25.6712 8.39353 25.7442L8.25 25.75H4.75C3.7835 25.75 3 24.9665 3 24C3 23.0818 3.70711 22.3288 4.60647 22.2558L4.75 22.25H8.25ZM43.25 22.25C44.2165 22.25 45 23.0335 45 24C45 24.9182 44.2929 25.6712 43.3935 25.7442L43.25 25.75H39.75C38.7835 25.75 38 24.9665 38 24C38 23.0818 38.7071 22.3288 39.6065 22.2558L39.75 22.25H43.25ZM11.8359 9.42837L11.9608 9.54188L14.4356 12.0168C15.1191 12.7002 15.1191 13.8082 14.4356 14.4916C13.7924 15.1348 12.7731 15.1727 12.0856 14.6051L11.9608 14.4916L9.48589 12.0168C8.80247 11.3333 8.80247 10.2253 9.48589 9.54188C10.1291 8.89866 11.1485 8.86083 11.8359 9.42837ZM38.4592 9.53877C39.103 10.1815 39.1416 11.2008 38.5747 11.8887L38.4613 12.0136L35.9885 14.4906C35.3056 15.1746 34.1976 15.1755 33.5136 14.4927C32.8698 13.85 32.8312 12.8307 33.3981 12.1427L33.5115 12.0178L35.9843 9.54084C36.6672 8.85686 37.7752 8.85593 38.4592 9.53877ZM24 3C24.9182 3 25.6712 3.70711 25.7442 4.60647L25.75 4.75V8.25C25.75 9.2165 24.9665 10 24 10C23.0818 10 22.3288 9.29289 22.2558 8.39353L22.25 8.25V4.75C22.25 3.7835 23.0335 3 24 3Z" fill="#212121"/>
+                        </svg>
+                        <h1 id="uvIndex">UV Index</h1>
+                    </div>
+                    <div class="uvindex-container">
+                        <h1 id="uv-index">-</h1>
+                        
+                    </div>
+                    <div class="uv-bar">
+                        <div class="uv-point"></div>
+                    </div>
+                    <div class="details">
+                        
+                    </div>
+                </div>
+                <div class="card sunrise-sunset">
+                    <div class="details-heading">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#ffff"><path d="m751.52-554.87-74.65-76.65 104.65-102.09 74.09 74.09-104.09 104.65ZM67-129.48v-106h826v106H67Zm360-555.04v-146h106v146H427ZM208.48-556.87 106.39-661.52l74.09-74.09 104.65 104.09-76.65 74.65Zm103.78 149.52h335.48q-24.13-48.35-68.04-76.82-43.92-28.48-99.7-28.48t-99.7 28.48q-43.91 28.47-68.04 76.82ZM187-307q0-126.04 84.61-216.02T480-613q123.78 0 208.39 89.98Q773-433.04 773-307H187Zm293-100.35Z"/></svg>
+                        <h1 id="sunriseset">Sunset</h1>
+                    </div>
+                    <div class="sunriseset-wrapper">
+                        <h1 class="suncycle-time-label" id="sunTime">--:--</h1>
+                        <div class="suncycle-wrapper">
+                            <div class="circle" id="circle">
+                                <div class="sun" id="sun"></div>
+                            </div>
+                            <div class="horizon"></div>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="card wind-details">
+                    <div class="details-heading">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#ffff"><path d="M460-160q-50 0-85-35t-35-85h80q0 17 11.5 28.5T460-240q17 0 28.5-11.5T500-280q0-17-11.5-28.5T460-320H80v-80h380q50 0 85 35t35 85q0 50-35 85t-85 35ZM80-560v-80h540q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43h-80q0-59 40.5-99.5T620-840q59 0 99.5 40.5T760-700q0 59-40.5 99.5T620-560H80Zm660 320v-80q26 0 43-17t17-43q0-26-17-43t-43-17H80v-80h660q59 0 99.5 40.5T880-380q0 59-40.5 99.5T740-240Z"/></svg>
+                        <h1>Wind</h1>
+                    </div>
+                    <div class="wind-details-wrapper">
+                        <div class="wind details">
+                            <div class="spaced-content-details">
+                                <span class="label">Wind</span>
+                                <span id="windSpeed" class="value">-- km/h</span>
+                            </div>
+                            <div class="spaced-content-details">
+                                <span class="label">Gusts</span>
+                                <span id="windGusts" class="value">-- km/h</span>
+                            </div>
+                            <div class="spaced-content-details">
+                                <span class="label">Direction</span>
+                                <span id="windDirection" class="value">--</span>
+                            </div>
+                        </div>
+                        <div class="margin">
+                            <svg class="wind-direction-icon" id="windArrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"fill="#ffff"><path d="M427.67-132v-495.33l-222 222L132-480l348-348.67L828.67-480l-74.34 74.67-222-222V-132H427.67Z"/></svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div style="padding-bottom: 20px;" class="details-heading">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#ffff"><path d="M563.65-50.65q-20.08 9.7-40.95 2.78-20.87-6.91-30.57-27l-60-120q-9.7-19.52-2.5-40.39 7.2-20.87 27-30.57 19.8-9.69 40.67-2.78t30.57 26.44l60 120q9.7 20.08 2.78 40.95-6.91 20.87-27 30.57Zm240 0q-20.08 9.7-40.95 2.78-20.87-6.91-30.57-27l-60-120q-9.7-19.52-2.5-40.39 7.2-20.87 27-30.57 19.8-9.69 40.67-2.78t30.57 26.44l60 120q9.7 20.08 2.78 40.95-6.91 20.87-27 30.57Zm-480 0q-20.08 9.7-40.95 2.78-20.87-6.91-30.57-27l-60-120q-9.7-19.52-2.5-40.39 7.2-20.87 27-30.57 19.8-9.69 40.67-2.78t30.57 26.44l60 120q9.7 20.08 2.78 40.95-6.91 20.87-27 30.57ZM300-315.48q-96.09 0-164.54-68.45Q67-452.39 67-548.48q0-86.39 56.13-151.5t139.39-78.37q34.26-57 92.02-90.06 57.76-33.07 125.44-33.07 92.28 0 161.32 57.5 69.05 57.5 86.44 144.63 70.7 9.39 117.98 63.22T893-508.48q0 80.09-56.29 136.55-56.29 56.45-136.71 56.45H300Zm0-106h400q36.54 0 61.77-25.19Q787-471.86 787-508.34q0-36.49-25.23-61.81-25.23-25.33-61.77-25.33h-73v-53q0-60.64-43.17-103.82-43.17-43.18-103.79-43.18-44.08 0-80.47 24.02-36.4 24.03-54.7 64.07l-13.23 31.91h-33.07q-51.87 1.81-88.72 38.5Q173-600.3 173-548.67q0 52.54 37.19 89.86 37.2 37.33 89.81 37.33Zm180-187Z"/></svg>
+                        <h1>Precipitation Map<h1>
+                    </div>
+                    <div class="map" id="map"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>
